@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,22 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * filter_role cache definitions.
- *
- * @package    filter_role
- * @category   cache
- * @copyright  2017 Andrew Hancox
+ * @package    filter_formattimestamp
+ * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com) on behalf of Ove Arup & Partners International Limited <https://www.arup.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$definitions = array(
-    'userrolesincontext' => array(
-        'mode' => cache_store::MODE_REQUEST,
-        'simplekeys' => true, // The course id or 0 for global.
-        'simpledata' => false,
-        'staticacceleration' => true,
-        'staticaccelerationsize' => 30,
-    ),
-);
+$string['filtername'] = 'Format timestamp';

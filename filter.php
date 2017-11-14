@@ -16,25 +16,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    filter_role
- * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com)
+ * @package    filter_formattimestamp
+ * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com) on behalf of Ove Arup & Partners International Limited <https://www.arup.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-class filter_role extends moodle_text_filter {
+class filter_formattimestamp extends moodle_text_filter {
     function filter($text, array $options = array()) {
 
         if (empty($text) or is_numeric($text)) {
             return $text;
         }
 
-        $hideforrolesearch = '/<span(\s+role="([a-zA-Z0-9_-]+)"|\s+class="hideforrole"){2}\s*>([\s\S]+?)<\/span>/ims';
-        $result = preg_replace_callback($hideforrolesearch, [$this, 'filter_role_hide'], $text);
+        if (strpos($text, 'formattimestamp') === false) { // The regex is pretty gnarly so lets try to skip it if possible.
+            return $text;
+        }
 
-        $hideforrolesearch = '/<span(\s+role="([a-zA-Z0-9_-]+)"|\s+class="showforrole"){2}\s*>([\s\S]+?)<\/span>/ims';
-        $result = preg_replace_callback($hideforrolesearch, [$this, 'filter_role_show'], $result);
+        $hideforrolesearch = '/<span\s+class="formattimestamp(_([0-9a-zA-Z\/]+)){0,1}"\s*>([0-9]*)<\/span>/ims';
+        $result = preg_replace_callback($hideforrolesearch, [$this, 'dofiltering'], $text);
 
         if (is_null($result)) {
             return $text; // Something went wrong when doing regex.
@@ -43,51 +44,15 @@ class filter_role extends moodle_text_filter {
         }
     }
 
-    private function hasrole($roleshortname) {
-        global $USER;
+    function dofiltering($block) {
+        $tz = empty($block[2]) ? 99 : $block[2];
+        $timestamp = $block[3];
 
-        $cachekey = $this->context->id . '_' . $USER->id;
-        $cache = \cache::make('filter_role', 'userrolesincontext');
-
-
-        $userrolesshortnames = $cache->get($cachekey);
-
-        if ($userrolesshortnames === false) {
-            $userrolesshortnames = [];
-            $userroles = get_users_roles($this->context, [$USER->id]);
-
-            if (empty($userroles) || empty([$USER->id])) {
-                return false;
-            }
-
-            foreach ($userroles[$USER->id] as $userrole) {
-                $userrolesshortnames[] = $userrole->shortname;
-            }
-
-            $cache->set($cachekey, $userrolesshortnames);
-        }
-
-        return in_array($roleshortname, $userrolesshortnames);
-    }
-
-    function filter_role_hide($block) {
-        $role = $block[2];
-
-        if ($this->hasrole($role)) {
+        if (empty($timestamp)) {
             return '';
-        } else {
-            return $block[0];
         }
-    }
 
-    function filter_role_show($block) {
-        $role = $block[2];
-
-        if (!$this->hasrole($role)) {
-            return '';
-        } else {
-            return $block[0];
-        }
+        return userdate($timestamp, '', $tz);
     }
 }
 

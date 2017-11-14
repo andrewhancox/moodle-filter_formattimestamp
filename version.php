@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    filter_role
- * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com)
+ * @package    filter_formattimestamp
+ * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com) on behalf of Ove Arup & Partners International Limited <https://www.arup.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -24,4 +25,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2017111300;
 $plugin->requires  = 2014050800;
-$plugin->component = 'filter_role';
+$plugin->component = 'filter_formattimestamp';
