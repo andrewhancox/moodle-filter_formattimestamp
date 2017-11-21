@@ -17,12 +17,15 @@
 
 /**
  * @package    filter_formattimestamp
- * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com) on behalf of Ove Arup & Partners International Limited <https://www.arup.com>
+ * @copyright  2017 onwards Andrew Hancox (andrewdchancox@googlemail.com) on behalf of Ove Arup & Partners International Limited
+ *         <https://www.arup.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017111300;
-$plugin->requires  = 2014050800;
+$plugin->version = 2017111300;
+$plugin->requires = 2014050800;
 $plugin->component = 'filter_formattimestamp';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = "1.0.0";
